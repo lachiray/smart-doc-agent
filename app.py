@@ -67,10 +67,10 @@ html, body, [class*="css"] {
     box-shadow: 0 4px 24px rgba(167,139,250,0.12);
 }
 .main-title {
-    font-size: 3.4rem; font-weight: 800;
+    font-size: 4.2rem !important; font-weight: 800 !important;
     background: linear-gradient(90deg, #7c3aed, #db2777, #f97316);
     -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-    line-height: 1.1; margin-bottom: 0.4rem;
+    line-height: 1.05 !important; margin-bottom: 0.4rem; display: block;
 }
 .sub-title { font-size: 1rem; color: #6b7280; margin: 0; }
 
