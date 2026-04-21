@@ -36,8 +36,8 @@ init_db()
 
 # ── Page config ────────────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="Smart Document Action Assistant",
-    page_icon="🤖",
+    page_title="Doxy ✨ your doc assistant",
+    page_icon="✨",
     layout="wide",
     initial_sidebar_state="collapsed",
 )
@@ -46,35 +46,102 @@ st.set_page_config(
 st.markdown(
     """
 <style>
-/* Typography */
-.main-title   { font-size: 2.2rem; font-weight: 800; color: #0f172a; line-height: 1.2; }
-.sub-title    { font-size: 1rem; color: #64748b; margin-bottom: 1.5rem; }
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+
+html, body, [class*="css"] {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* Hero header */
+.hero-wrap {
+    background: linear-gradient(135deg, #f0e7ff 0%, #fce4f5 50%, #ffe8d6 100%);
+    border-radius: 20px;
+    padding: 2rem 2.4rem 1.6rem;
+    margin-bottom: 1.8rem;
+    box-shadow: 0 4px 24px rgba(167,139,250,0.12);
+}
+.main-title {
+    font-size: 2.4rem; font-weight: 800;
+    background: linear-gradient(90deg, #7c3aed, #db2777, #f97316);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    line-height: 1.2; margin-bottom: 0.4rem;
+}
+.sub-title { font-size: 1rem; color: #6b7280; margin: 0; }
+
+/* Section headings */
+.section-label {
+    font-size: 0.72rem; font-weight: 700; letter-spacing: 0.09em;
+    text-transform: uppercase; color: #a78bfa; margin-bottom: 0.5rem;
+}
 
 /* Tool badge pill */
 .tool-badge {
     display: inline-flex; align-items: center; gap: 6px;
-    padding: 6px 14px; border-radius: 999px;
-    background: #dbeafe; color: #1d4ed8;
-    font-weight: 700; font-size: 0.95rem;
+    padding: 6px 16px; border-radius: 999px;
+    background: linear-gradient(135deg, #ede9fe, #fce7f3);
+    color: #7c3aed; font-weight: 700; font-size: 0.92rem;
+    border: 1.5px solid #ddd6fe;
+    box-shadow: 0 2px 8px rgba(124,58,237,0.10);
 }
 
 /* Confidence bar */
 .conf-wrap { margin: 6px 0; }
-.conf-track { height: 10px; background: #e2e8f0; border-radius: 5px; overflow: hidden; }
-.conf-fill  { height: 10px; border-radius: 5px; }
-
-/* Result box */
-.result-card {
-    background: #f8fafc; border-left: 4px solid #2563eb;
-    padding: 1.1rem 1.4rem; border-radius: 0 10px 10px 0;
-    margin-top: 0.5rem; line-height: 1.7;
+.conf-track {
+    height: 8px; background: #f3e8ff; border-radius: 999px; overflow: hidden;
 }
+.conf-fill  { height: 8px; border-radius: 999px; }
+
+/* Result card */
+.result-card {
+    background: linear-gradient(135deg, #faf5ff 0%, #fdf2f8 100%);
+    border: 1.5px solid #e9d5ff;
+    padding: 1.2rem 1.5rem; border-radius: 16px;
+    margin-top: 0.5rem; line-height: 1.8;
+    box-shadow: 0 2px 12px rgba(167,139,250,0.08);
+}
+
+/* How-it-works card */
+.how-card {
+    background: linear-gradient(135deg, #fefce8 0%, #f0fdf4 100%);
+    border: 1.5px solid #d9f99d; border-radius: 16px;
+    padding: 1.3rem 1.5rem;
+    box-shadow: 0 2px 10px rgba(134,239,172,0.12);
+}
+
+/* Tool table rows */
+.tool-row {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 7px 0; border-bottom: 1px solid #f3e8ff;
+}
+.tool-row:last-child { border-bottom: none; }
+.tool-icon { font-size: 1.15rem; width: 28px; text-align: center; flex-shrink: 0; }
+.tool-name { font-weight: 700; font-size: 0.88rem; color: #4c1d95; }
+.tool-desc { font-size: 0.82rem; color: #6b7280; }
 
 /* Clarification banner */
 .clari-box {
-    background: #fffbeb; border: 1px solid #f59e0b;
-    padding: 1rem 1.2rem; border-radius: 8px; margin-top: 1rem;
+    background: linear-gradient(135deg, #fefce8, #fff7ed);
+    border: 1.5px solid #fcd34d; border-radius: 14px;
+    padding: 1rem 1.2rem; margin-top: 1rem;
 }
+
+/* Confidence label colours */
+.conf-high   { color: #059669; font-weight: 700; }
+.conf-medium { color: #d97706; font-weight: 700; }
+.conf-low    { color: #dc2626; font-weight: 700; }
+
+/* Divider */
+hr { border: none; border-top: 2px dashed #e9d5ff; margin: 1.4rem 0; }
+
+/* Streamlit button overrides */
+div.stButton > button[kind="primary"] {
+    background: linear-gradient(135deg, #7c3aed, #db2777) !important;
+    border: none !important; border-radius: 12px !important;
+    font-weight: 700 !important; letter-spacing: 0.02em !important;
+    box-shadow: 0 4px 14px rgba(124,58,237,0.28) !important;
+    transition: opacity 0.15s !important;
+}
+div.stButton > button[kind="primary"]:hover { opacity: 0.88 !important; }
 </style>
 """,
     unsafe_allow_html=True,
@@ -151,10 +218,13 @@ SAMPLE_TEXTS = {
 
 
 # ── Page header ────────────────────────────────────────────────────────────────
-st.markdown('<p class="main-title">🤖 Smart Document Action Assistant</p>', unsafe_allow_html=True)
 st.markdown(
-    '<p class="sub-title">Paste any document — email, meeting note, policy, report. '
-    "The AI agent reads it and automatically picks the right action.</p>",
+    """
+<div class="hero-wrap">
+  <p class="main-title">✨ meet doxy</p>
+  <p class="sub-title">drop in any document — email, meeting notes, policy, report — and doxy figures out exactly what to do with it 🪄</p>
+</div>
+""",
     unsafe_allow_html=True,
 )
 
@@ -162,7 +232,7 @@ left, right = st.columns([3, 2], gap="large")
 
 # ── Input column ───────────────────────────────────────────────────────────────
 with left:
-    st.subheader("Your Document")
+    st.markdown('<p class="section-label">📄 your document</p>', unsafe_allow_html=True)
 
     # Sample loader
     sample_choice = st.selectbox(
@@ -207,7 +277,7 @@ with left:
     clarification_answer = ""
     if st.session_state.get("pending_clarification"):
         st.markdown(
-            f'<div class="clari-box">💬 <strong>The agent needs clarification:</strong><br>'
+            f'<div class="clari-box">🤔 <strong>doxy has a quick question:</strong><br>'
             f'{st.session_state.pending_clarification}</div>',
             unsafe_allow_html=True,
         )
@@ -215,27 +285,47 @@ with left:
             "Your answer:", key="clarification_input", placeholder="Type your answer…"
         )
 
-    run_btn = st.button("⚡ Analyze", type="primary", use_container_width=True)
+    run_btn = st.button("✨ analyze with doxy", type="primary", use_container_width=True)
 
 # ── Info column ────────────────────────────────────────────────────────────────
 with right:
-    st.subheader("How it works")
+    st.markdown('<p class="section-label">🧠 how doxy thinks</p>', unsafe_allow_html=True)
     st.markdown(
         """
-The **agent router** — not a fixed pipeline — decides what happens:
+<div class="how-card">
+<p style="font-size:0.88rem; color:#374151; margin-bottom:0.9rem;">
+doxy uses a smart <strong>agent router</strong> — not a rigid pipeline — to pick the best action for your doc every time 🎯
+</p>
 
-| Tool | When it's chosen |
-|------|-----------------|
-| 📋 Summarize | Long informational content |
-| ✅ Extract Action Items | Tasks, deadlines, owners |
-| 🏷️ Classify | Ambiguous or mixed-genre docs |
-| 🚨 Risk Scan | Legal, compliance, safety flags |
-| 🔍 Retrieve Context | Questions needing background |
+<div class="tool-row">
+  <span class="tool-icon">📋</span>
+  <div><div class="tool-name">Summarize</div><div class="tool-desc">long or informational content</div></div>
+</div>
+<div class="tool-row">
+  <span class="tool-icon">✅</span>
+  <div><div class="tool-name">Extract Action Items</div><div class="tool-desc">tasks, deadlines &amp; owners</div></div>
+</div>
+<div class="tool-row">
+  <span class="tool-icon">🏷️</span>
+  <div><div class="tool-name">Classify</div><div class="tool-desc">ambiguous or mixed-genre docs</div></div>
+</div>
+<div class="tool-row">
+  <span class="tool-icon">🚨</span>
+  <div><div class="tool-name">Risk Scan</div><div class="tool-desc">legal, compliance &amp; safety flags</div></div>
+</div>
+<div class="tool-row">
+  <span class="tool-icon">🔍</span>
+  <div><div class="tool-name">Retrieve Context</div><div class="tool-desc">questions needing background</div></div>
+</div>
 
-If the router is unsure (confidence < 0.6), it asks you a clarification question instead of guessing.
+<p style="font-size:0.8rem; color:#9ca3af; margin-top:0.9rem; margin-bottom:0;">
+💬 if doxy isn't sure (confidence &lt; 0.6) she'll ask before guessing
+</p>
+</div>
 
-📊 See the **Observability** page for logs and metrics.
-"""
+<p style="font-size:0.8rem; color:#a78bfa; margin-top:0.9rem;">📊 check the <strong>Observability</strong> page for logs &amp; metrics</p>
+""",
+        unsafe_allow_html=True,
     )
 
 st.divider()
@@ -255,7 +345,7 @@ if run_btn:
     client = get_client()
 
     # ── Step 1: Route ──────────────────────────────────────────────────────────
-    with st.spinner("🧠 Agent is deciding which tool to use…"):
+    with st.spinner("🧠 doxy is reading your doc…"):
         try:
             router_result, router_latency = route_input(working_text, client)
         except Exception as exc:
@@ -272,7 +362,7 @@ if run_btn:
             router_latency * 1000, 0,
         )
         st.info(
-            f"**The agent needs more information before proceeding.**\n\n"
+            f"**doxy needs a little more info before diving in ✨**\n\n"
             f"*{router_result.rationale}*"
         )
         st.rerun()
@@ -308,7 +398,7 @@ if run_btn:
     st.session_state.last_log_id = log_row_id
 
     # ── Results ────────────────────────────────────────────────────────────────
-    st.subheader("Results")
+    st.markdown('<p class="section-label">🎉 doxy\'s verdict</p>', unsafe_allow_html=True)
 
     header_left, header_mid, header_right = st.columns([3, 3, 1])
 
@@ -325,10 +415,10 @@ if run_btn:
         total_ms = (router_latency + tool_latency) * 1000
         st.metric("Time", f"{total_ms:.0f} ms")
 
-    st.markdown("**Why this action was chosen:**")
+    st.markdown("**💡 why doxy chose this:**")
     st.info(router_result.rationale)
 
-    st.markdown("**Output:**")
+    st.markdown("**📝 output:**")
     st.markdown(
         f'<div class="result-card">{tool_output}</div>',
         unsafe_allow_html=True,
