@@ -16,15 +16,48 @@ from core.metrics import compute_latency_stats, get_live_metrics
 init_db()
 
 st.set_page_config(
-    page_title="Observability — Smart Doc Assistant",
+    page_title="Observability — Doxy",
     page_icon="📊",
     layout="wide",
 )
 
-st.title("📊 Observability Panel")
 st.markdown(
-    "Full audit trail of every request: routing decisions, confidence scores, "
-    "latency, tool outputs, and errors."
+    """
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
+html, body, [class*="css"] { font-family: 'Plus Jakarta Sans', sans-serif; }
+.stApp,
+[data-testid="stAppViewContainer"],
+[data-testid="stMain"],
+section.main > div {
+    background: linear-gradient(160deg, #ecfdf5 0%, #f0fdf4 50%, #f0fdfa 100%) !important;
+}
+.obs-hero {
+    background: linear-gradient(135deg, #bbf7d0 0%, #a7f3d0 50%, #99f6e4 100%);
+    border-radius: 20px;
+    padding: 1.6rem 2.2rem 1.3rem;
+    margin-bottom: 1.6rem;
+    box-shadow: 0 4px 20px rgba(52,211,153,0.15);
+}
+.obs-title {
+    font-size: 2.4rem !important; font-weight: 800 !important;
+    color: #065f46 !important; line-height: 1.1; margin-bottom: 0.3rem; display: block;
+}
+.obs-sub { font-size: 0.95rem; color: #047857; margin: 0; }
+hr { border: none; border-top: 2px dashed #bbf7d0; margin: 1.4rem 0; }
+</style>
+""",
+    unsafe_allow_html=True,
+)
+
+st.markdown(
+    """
+<div class="obs-hero">
+  <span class="obs-title">📊 observability</span>
+  <p class="obs-sub">full audit trail — routing decisions, confidence scores, latency, outputs & errors</p>
+</div>
+""",
+    unsafe_allow_html=True,
 )
 
 # ── Live metrics ───────────────────────────────────────────────────────────────

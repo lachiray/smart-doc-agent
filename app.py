@@ -53,9 +53,11 @@ html, body, [class*="css"] {
 }
 
 /* Page background */
-.stApp {
-    background: linear-gradient(160deg, #f5f0ff 0%, #fdf0f8 40%, #fff7ed 100%);
-    min-height: 100vh;
+.stApp,
+[data-testid="stAppViewContainer"],
+[data-testid="stMain"],
+section.main > div {
+    background: linear-gradient(160deg, #f5f0ff 0%, #fdf0f8 40%, #fff7ed 100%) !important;
 }
 
 /* Hero header */
