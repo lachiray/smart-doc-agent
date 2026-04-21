@@ -1,0 +1,122 @@
+[
+  {
+    "id": "tc_01_meeting_notes_tasks",
+    "description": "Meeting notes with clear action items and owners",
+    "input_text": "Team Sync — Oct 14, 2024\n\nAttendees: Alice (PM), Bob (Eng), Carol (Design)\n\nDecisions:\n- Alice to draft the product requirements doc by Oct 18.\n- Bob will complete the authentication module by end of sprint (Oct 25).\n- Carol to share three wireframe options for the dashboard by Oct 17.\n- Everyone review the updated roadmap before next meeting on Oct 21.\n- Bob to file a JIRA ticket for the login bug found during QA.",
+    "expected_tool": "extract_action_items",
+    "expects_clarification": false,
+    "notes": "Strong signals: named owners, specific deadlines, action verbs"
+  },
+  {
+    "id": "tc_02_executive_briefing",
+    "description": "Long informational briefing document needing a summary",
+    "input_text": "Q3 2024 Market Intelligence Briefing\n\nThe global cloud infrastructure market grew 21% year-over-year in Q3 2024, reaching $74 billion in revenue. AWS maintained its market leadership at 31% share, followed by Microsoft Azure at 24% and Google Cloud at 11%. Key growth drivers include AI/ML workloads, which now account for 18% of total cloud spend, up from 9% in Q3 2023. Enterprises are increasingly adopting multi-cloud strategies to avoid vendor lock-in, with 87% of Fortune 500 companies now running workloads across at least two providers. Security concerns remain the top barrier to cloud adoption among mid-market firms, cited by 63% of respondents in the Gartner Q3 CIO survey. Emerging competitors including Oracle Cloud and Alibaba Cloud are gaining traction in specific verticals.",
+    "expected_tool": "summarize_text",
+    "expects_clarification": false,
+    "notes": "Long informational prose, no tasks, no risks — classic summarize signal"
+  },
+  {
+    "id": "tc_03_contract_liability",
+    "description": "Contract excerpt with compliance and liability language",
+    "input_text": "Section 8 — Limitation of Liability\n\nIn no event shall either party be liable for indirect, incidental, special, or consequential damages arising from the use or inability to use the services, even if advised of the possibility of such damages. The company's total liability shall not exceed the fees paid in the twelve months preceding the claim. Customer acknowledges that personal data processed under this agreement is subject to GDPR Article 28 requirements, and customer bears sole responsibility for obtaining necessary data subject consents. The company reserves the right to suspend services without notice if it reasonably believes customer is violating applicable law.",
+    "expected_tool": "risk_scan",
+    "expects_clarification": false,
+    "notes": "Strong risk signals: liability caps, GDPR, suspension clause, legal language"
+  },
+  {
+    "id": "tc_04_unknown_short",
+    "description": "Ambiguous very short input — should trigger clarification",
+    "input_text": "Check this.",
+    "expected_tool": "classify_text",
+    "expects_clarification": true,
+    "notes": "Too short/vague — low confidence expected, clarification should be triggered"
+  },
+  {
+    "id": "tc_05_email_request",
+    "description": "Email with a direct request and deadline",
+    "input_text": "Hi Sarah,\n\nHope you're well. I wanted to follow up on the vendor evaluation we discussed last week. Could you please share your assessment of the three vendors (Acme, Brightline, and Cortex) by Wednesday EOD? We need to make a final decision before the board meeting on Friday.\n\nAlso, please loop in David from finance — he needs to review the cost projections before we can proceed.\n\nThanks,\nMike",
+    "expected_tool": "extract_action_items",
+    "expects_clarification": false,
+    "notes": "Email with explicit tasks, owners, and deadlines"
+  },
+  {
+    "id": "tc_06_hr_policy",
+    "description": "HR policy document — could be risk_scan or classify; risk wins due to compliance language",
+    "input_text": "Remote Work Policy — Effective January 1, 2025\n\nEmployees approved for remote work must maintain availability during core hours (10am–3pm local time). Employees who fail to meet performance standards while remote may have remote work privileges revoked at management discretion without prior notice. All company data accessed remotely must be via VPN. Personal devices may not store company confidential data. Employees in non-compliant jurisdictions for wage and hour law may not work remotely without prior HR approval. Violations of this policy may result in disciplinary action.",
+    "expected_tool": "risk_scan",
+    "expects_clarification": false,
+    "notes": "Policy with compliance, legal, and disciplinary risk language"
+  },
+  {
+    "id": "tc_07_what_is_question",
+    "description": "A question requiring background context",
+    "input_text": "What is retrieval-augmented generation (RAG) and how does it differ from fine-tuning? When should a company choose one over the other?",
+    "expected_tool": "retrieve_context",
+    "expects_clarification": false,
+    "notes": "Direct question — retrieve_context is the right tool"
+  },
+  {
+    "id": "tc_08_mystery_document",
+    "description": "Strange format — classification is the primary need",
+    "input_text": "FORM 14-B\nSubject: Incident Report\nDate: 2024-08-22\nReporting Officer: J. Williams\nIncident Type: [UNSPECIFIED]\nLocation: Building 4, Server Room\nDetails: Anomalous system behavior observed between 02:00 and 03:15. No further information available at this time. Status: Under Investigation.",
+    "expected_tool": "classify_text",
+    "expects_clarification": false,
+    "notes": "Structured but ambiguous — classification of document type is the right first step"
+  },
+  {
+    "id": "tc_09_long_report",
+    "description": "Annual report excerpt — pure informational, needs summary",
+    "input_text": "Fiscal Year 2024 Annual Report — Technology Division\n\nRevenue for the Technology Division reached $2.3 billion in FY2024, representing 14% growth over FY2023. The division's three business units — Cloud Services ($1.1B), Software Licensing ($0.8B), and Professional Services ($0.4B) — all posted positive growth. Cloud Services grew the fastest at 28% driven by AI platform adoption. Operating margin expanded from 18% to 22% due to headcount efficiency initiatives and reduced infrastructure costs following the datacenter consolidation completed in Q2. Research and development expenditure was $340M, or 14.8% of revenue. Headcount stands at 8,400 full-time employees across 22 countries, down 6% from FY2023 due to restructuring.",
+    "expected_tool": "summarize_text",
+    "expects_clarification": false,
+    "notes": "Dense financial narrative — summarize is clearly right"
+  },
+  {
+    "id": "tc_10_incident_with_tasks",
+    "description": "Incident report with follow-up action items",
+    "input_text": "Production Incident Summary — P1 — 2024-10-01 03:17 UTC\n\nImpact: API gateway returned 503 errors for 47 minutes. Approximately 12,000 users affected.\n\nRoot Cause: Misconfigured rate-limiting rule deployed in the 22:00 release.\n\nImmediate Actions Taken: Rolled back the release at 04:04 UTC.\n\nRequired Follow-ups:\n- DevOps (Kyle) to audit all rate-limiting configs across environments by Oct 4.\n- Engineering (Priya) to add integration tests for rate-limiting rules before Oct 7.\n- SRE team to update runbook with detection steps — due Oct 5.\n- PM (Rachel) to draft customer communication by noon today.",
+    "expected_tool": "extract_action_items",
+    "expects_clarification": false,
+    "notes": "Incident report, but the dominant signal is explicit action items with names and dates"
+  },
+  {
+    "id": "tc_11_gdpr_question",
+    "description": "Regulatory question needing context",
+    "input_text": "Our startup is based in Nashville but we have users in Germany. Do we need to comply with GDPR? What are the main obligations if yes?",
+    "expected_tool": "retrieve_context",
+    "expects_clarification": false,
+    "notes": "Question about a regulation — retrieve_context provides relevant background"
+  },
+  {
+    "id": "tc_12_vague_no_context",
+    "description": "Single sentence with no useful signal",
+    "input_text": "Please look at this document.",
+    "expected_tool": "classify_text",
+    "expects_clarification": true,
+    "notes": "No document content, request is vague — should ask for clarification"
+  },
+  {
+    "id": "tc_13_safety_warning",
+    "description": "Safety and compliance warning document",
+    "input_text": "NOTICE TO ALL STAFF — MANDATORY COMPLIANCE\n\nEffective immediately, all laboratory personnel must complete the revised chemical handling certification. Failure to complete this certification by November 15 will result in access revocation to all laboratory spaces. Personnel handling Class B solvents must use double-glove protocol at all times. Any deviation from established safety protocols may result in immediate suspension and referral to the Safety Review Board. Three incidents of non-compliance have been recorded this quarter.",
+    "expected_tool": "risk_scan",
+    "expects_clarification": false,
+    "notes": "Safety, compliance, disciplinary language — risk_scan is right"
+  },
+  {
+    "id": "tc_14_product_announcement",
+    "description": "Product announcement email for information distribution",
+    "input_text": "Subject: Announcing Version 3.0 of Our Analytics Platform\n\nDear Customer,\n\nWe are thrilled to announce the release of Analytics Platform 3.0, our most powerful update yet. New features include: real-time dashboards with sub-second refresh, AI-powered anomaly detection, and a redesigned mobile experience. Existing customers will be automatically upgraded on November 1. The legacy 2.x API will be supported until June 30, 2025. Full release notes and migration guides are available in our documentation portal. We appreciate your continued trust in our platform.\n\nWarm regards,\nThe Product Team",
+    "expected_tool": "summarize_text",
+    "expects_clarification": false,
+    "notes": "Announcement email — informational, no tasks for the reader, summarize is right"
+  },
+  {
+    "id": "tc_15_mixed_contract_tasks",
+    "description": "Consulting agreement with both obligations and risk language",
+    "input_text": "Consulting Agreement Summary\n\nEngagement: 90-day strategic advisory project starting Nov 1.\n\nDeliverables:\n- Week 2: Current-state assessment report\n- Week 6: Recommendations deck for executive review\n- Week 10: Implementation roadmap with cost estimates\n- Week 12: Final presentation to board\n\nPayment: $45,000 total, invoiced monthly. Late payment incurs 1.5% monthly interest.\n\nConfidentiality: Consultant must not disclose any proprietary information for 3 years post-engagement. Breach will result in liquidated damages of $150,000.\n\nTermination: Either party may terminate with 14 days notice. Upon termination, all deliverables produced to date become property of the client.",
+    "expected_tool": "risk_scan",
+    "expects_clarification": false,
+    "notes": "Has tasks but dominant signals are legal/financial risks: liquidated damages, confidentiality, IP clause"
+  }
+]
