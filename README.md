@@ -110,9 +110,17 @@ Open http://localhost:8501 in your browser.
 
 ## Environment variables
 
+Copy `.env.example` to `.env` and fill in your values. Never commit `.env`.
+
 | Variable | Required | Description |
 |----------|----------|-------------|
-| `ANTHROPIC_API_KEY` | Yes | Your Anthropic API key from console.anthropic.com |
+| `LLM_PROVIDER` | Yes | `anthropic` (default) or `bedrock` |
+| `ANTHROPIC_API_KEY` | If `LLM_PROVIDER=anthropic` | Your Anthropic API key from console.anthropic.com |
+| `MODEL_ID` | No | Override the default model ID |
+| `AWS_ACCESS_KEY_ID` | If `LLM_PROVIDER=bedrock` | AWS access key (omit if using IAM role) |
+| `AWS_SECRET_ACCESS_KEY` | If `LLM_PROVIDER=bedrock` | AWS secret key (omit if using IAM role) |
+| `AWS_REGION` | If `LLM_PROVIDER=bedrock` | AWS region (default: `us-east-1`) |
+| `AWS_SESSION_TOKEN` | No | Only needed for temporary AWS credentials |
 
 ---
 
